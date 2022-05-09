@@ -1,0 +1,123 @@
+#include <stdio.h>
+#define N 5
+
+int deque[N];
+int front= -1 , rear= -1;
+
+void enqueueFront(int x){
+    if ((front == 0 && rear == N-1) || front == rear+1){
+        printf("Dequeue is full\n");
+    }else if(front == -1 && rear == -1){
+        front = rear = 0;
+        deque[front] = x;
+    }else if(front == 0){
+        front = N-1;
+        deque[front] = x;
+    }else{
+        front--;
+        deque[front] = x;
+    }
+}
+
+void enqueueRear(int x){
+    if ((front == 0 && rear == N-1) || front == rear+1){
+        printf("Dequeue is full\n");
+    }else if(front == -1 && rear == -1){
+        front = rear = 0;
+        deque[rear] = x;
+    }if(rear == N-1){
+        rear = 0;
+        deque[rear] = x;
+    }else{
+        rear++;
+        deque[rear] = x;
+    }
+}
+
+void display(){
+    int i = front;
+    if(front ==-1 && rear ==-1){
+        printf("Empty Dequeue\n");
+    }else{
+        printf("Queue: ");
+        while(i!=rear){
+            printf("%d, ",deque[i]);
+            i = (i+1)%N;
+        }printf("%d \n",deque[i]);
+    }
+}
+
+void getFront(){
+    if (front == -1 && rear == -1){
+        printf("Dequeue is emppty\n");
+    }else{
+        printf("Front element: %d\n",deque[front]);
+    }
+}
+
+void getRear(){
+    if (front == -1 && rear == -1){
+        printf("Dequeue is emppty\n");
+    }else{
+        printf("Rear element: %d\n",deque[rear]);
+    }
+}
+
+void dequeueFront(){
+    if (front == -1 && rear == -1){
+        printf("Dequeue is empty\n");
+    }else if(front == rear){
+        printf("dequeued element: %d\n",deque[front]);
+        front = rear = -1;
+    }else if(front == N-1){
+        printf("Dequeued element: %d\n",deque[front]);
+        front = 0;
+    }
+    else{
+        printf("Dequeued element: %d\n",deque[front]);
+        front++;
+    }
+}
+
+void dequeueRear(){
+    if (front == -1 && rear == -1){
+        printf("Dequeue is empty\n");
+    }else if(front == rear){
+        printf("dequeued element: %d\n",deque[rear]);
+        front = rear = -1;
+    }else if(rear == 0){
+        printf("Dequeued element: %d\n",deque[rear]);
+        rear = N-1;
+    }else{
+        printf("Dequeued element: %d\n",deque[rear]);
+        rear--;
+    }
+}
+
+int main()
+{
+    enqueueFront(3);
+    enqueueFront(2);
+    enqueueFront(1);
+    enqueueRear(4);
+    enqueueRear(5);
+    display();
+    printf("front %d, rear: %d\n",front,rear);
+    getFront();
+    getRear();
+    dequeueFront();
+    display();
+    dequeueFront();
+    display();
+    dequeueFront();
+    display();
+    dequeueFront();
+    display();
+    getFront();
+    getRear();
+    
+    
+    
+
+    return 0;
+}
