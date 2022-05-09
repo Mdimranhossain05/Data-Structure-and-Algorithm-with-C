@@ -1,0 +1,78 @@
+#include <stdio.h>
+#include<conio.h>
+
+
+#define N 4
+int stack[N];
+int top = -1;
+
+void push(){
+    int x;
+    printf("Enter data: ");
+    scanf("%d",&x);
+    if (top == N){
+        printf("Stack overflow\n");
+    }else{
+        top++;
+        stack[top] = x;
+    }
+}
+void pop(){
+    int x;
+    if (top == -1){
+        printf("Stack underflow\n");
+    }else{
+        x = stack[top];
+        top--;
+        printf("Poped: %d\n",x);
+    }
+}
+void peek(){
+    int x;
+    if (top == -1){
+        printf("Stack underflow\n");
+    }else{
+        x = stack[top];
+        printf("Peeked: %d\n",x);
+    }
+}
+void display(){
+    for (int i = top; i>-1;i--){
+        printf("%d\t",stack[i]);
+    }printf("\n");
+}
+
+int main()
+{
+    int choice;
+    do{
+        printf("Enter: 1.Push 2.Pop 3.Peek 4.Display 0.Exit\n");
+        scanf("%d",&choice);
+        switch(choice){
+            case 1:
+            push();
+            break;
+            
+            case 2:
+            pop();
+            break;
+            
+            case 3:
+            peek();
+            break;
+            
+            case 4:
+            display();
+            break;
+            
+            default:
+            printf("Invalid");
+            
+            case 0:
+            break;
+            
+        }
+    }while(choice);
+    
+    return 0;
+}
