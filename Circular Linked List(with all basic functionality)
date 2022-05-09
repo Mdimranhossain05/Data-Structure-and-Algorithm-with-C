@@ -1,0 +1,159 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+
+struct node{
+    int data;
+    struct node *next;
+};
+struct node *newNode, *tail, *temp;
+int isInsert,indexToInsert,isdelete,indexToDel,isReverse;
+void createCLL(){
+    int choice = 1;
+    tail = 0;
+    while(choice){
+        newNode = (struct node*)malloc(sizeof(struct node));
+        printf("Enter data: ");
+        scanf("%d",&newNode->data);
+        if (tail == 0){
+            tail = newNode;
+            newNode->next = tail;
+        }else{
+            newNode->next = tail->next;
+            tail->next = newNode;
+            tail = newNode;
+        }
+        printf("Do you want to add more data?(0/1): ");
+        scanf("%d",&choice);
+    }
+}
+void display(){
+    temp = tail->next;
+    while(temp->next != tail->next){
+        printf("%d-->",temp->data);
+        temp = temp->next;
+    }printf("%d-->\n",temp->data);
+}
+void inserAtBeg(){
+    newNode = (struct node*)malloc(sizeof(struct node));
+    printf("Enter data: ");
+    scanf("%d",&newNode->data);
+    newNode->next = tail->next;
+    tail->next = newNode;
+}
+void inserAtEnd(){
+    newNode = (struct node*)malloc(sizeof(struct node));
+    printf("Enter data: ");
+    scanf("%d",&newNode->data);
+    newNode->next = tail->next;
+    tail->next = newNode;
+    tail = newNode;
+}
+void insertAtIndex(int index){
+    newNode = (struct node*)malloc(sizeof(struct node));
+    printf("Enter data: ");
+    scanf("%d",&newNode->data);
+    temp = tail->next;
+    int i = 0;
+    while(i<index-1){
+        temp = temp->next;
+        i++;
+    };
+    newNode->next = temp->next;
+    temp->next = newNode;
+}
+void deleteAtBeg(){
+    temp = tail->next;
+    if (temp->next == temp){//if there only one node
+        tail = 0;
+        free(temp);
+    }else{
+        tail->next = temp->next;
+        free(temp);
+    }
+}
+void deleteAtEnd(){
+    struct node *current,*previous;
+    current = tail->next;
+    while(current->next != tail->next){
+        previous = current;
+        current = current->next;
+    }
+    previous->next = current->next;
+    tail = previous;
+    free(current);
+}
+void deleteAtIndex(int index){
+    struct node *current;
+    int i=0;
+    temp = tail->next;
+    while(i<index){
+        current = temp;
+        temp = temp->next;
+        i++;
+    }
+    current->next = temp->next;
+    free(temp);
+}
+void reverseLL(){
+    struct node *currentNode,*prevNode,*nextNode;
+    currentNode = tail->next;
+    nextNode = currentNode->next;
+    while(currentNode != tail){
+        prevNode = currentNode;
+        currentNode = nextNode;
+        nextNode = currentNode->next;
+        currentNode->next = prevNode;
+    }
+    nextNode->next = tail;
+    tail = nextNode;
+}
+int main()
+{
+    createCLL();
+    display();
+    printf("Do you want to insert data?(0/1): ");
+    scanf("%d",&isInsert);
+    while(isInsert){
+        printf("Enter index to insert: ");
+        scanf("%d",&indexToInsert);
+        if(indexToInsert == 0){
+            inserAtBeg();
+        }
+        else if(indexToInsert == -1){
+            inserAtEnd();
+        }
+        else{
+            insertAtIndex(indexToInsert);
+        }
+        printf("Do you want to insert more data?(0/1): ");
+        scanf("%d",&isInsert);
+    }
+    display();
+    printf("Do you want to delete data?(0/1): ");
+    scanf("%d",&isdelete);
+    while(isdelete){
+        printf("Enter index to delete: ");
+        scanf("%d",&indexToDel);
+        if(indexToDel==0){
+            deleteAtBeg();
+        }
+        else if(indexToDel== -1){
+            deleteAtEnd();
+        }
+        else{
+            deleteAtIndex(indexToDel);
+        }
+        printf("Do you want to delete more data?(0/1): ");
+        scanf("%d",&isdelete);
+    }
+    display();
+    
+    printf("Do you want to reverse this LinkedList?(0/1): ");
+    scanf("%d",&isReverse);
+    if(isReverse){
+        reverseLL();
+    }
+    display();
+    return 0;
+}
