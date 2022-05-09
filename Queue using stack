@@ -1,0 +1,115 @@
+int s1[N],s2[N];
+int top1 = -1, top2 = -1;
+
+void push1(int x){
+    if(top1 == N-1){
+        printf("Stack1 is full\n");
+    }else{
+        top1++;
+        s1[top1] = x;
+    }
+}
+void push2(int x){
+    if(top2 == N-1){
+        printf("Stack1 is full\n");
+    }else{
+        top2++;
+        s2[top2] = x;
+    }
+}
+
+int pop1(){
+    int a;
+    if (top1 == -1){
+        printf("Empty stack\n");
+        return -1;
+    }else{
+        a = s1[top1];
+        top1--;
+    }
+    return a;
+}
+int pop2(){
+    int a;
+    if (top2 == -1){
+        printf("Empty stack\n");
+        return -1;
+    }else{
+        a = s2[top2];
+        top2--;
+    }
+    return a;
+}
+
+void enqueu(int x){
+    if(top1 == N-1){
+        printf("Queue is full\n");
+    }else{
+        push1(x);
+    }
+}
+
+void dequeue(){
+    int temp,a;
+    if(top1 == -1){
+        printf("Queue is empty\n");
+    }else{
+        temp = top1;
+        while (temp != -1){
+            a = pop1();
+            push2(a);
+            temp--;
+            
+        }
+        printf("Dequeued element: %d\n",s2[top2]);
+        pop2();
+        temp = top2;
+        while (temp != -1){
+            a = pop2();
+            push1(a);
+            temp--;
+        
+    }
+}
+    
+}
+
+void display(){
+    int temp = 0;
+    if(top1 == -1){
+        printf("Empty queue\n");
+    }else{
+        printf("Queue: ");
+        while(temp <= top1){
+            printf("%d, ",s1[temp]);
+            temp++;
+        }printf("\n");
+    }
+}
+
+int main()
+{
+    enqueu(1);
+    dequeue();
+    enqueu(2);
+    enqueu(3);
+    enqueu(4);
+    enqueu(5);
+    enqueu(6);
+    enqueu(7);
+    display();
+    dequeue();
+    dequeue();
+    dequeue();
+    dequeue();
+    dequeue();
+    dequeue();
+    display();
+    enqueu(8);
+    enqueu(9);
+    enqueu(10);
+    enqueu(11);
+    display();
+
+    return 0;
+}
