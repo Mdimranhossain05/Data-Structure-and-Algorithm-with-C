@@ -1,0 +1,57 @@
+#include <stdio.h>
+#define N 5
+int queue[N];
+int front = 0;
+int rear = 0;
+
+void enqueue(int x){
+    if((rear+1)%(N+1) == front){
+        printf("Queue is full\n");
+    }else{
+        queue[rear] = x;
+        rear =(rear+1)%(N+1);
+    }
+}
+void dequeue(){
+    if(front == rear){
+        printf("Empty Queue\n");
+    }else{
+        printf("Dequeued element: %d\n",queue[front]);
+        front = (front+1)%(N+1);
+    }
+}
+void display(){
+    if(rear == front){
+        printf("Queue is empty\n");
+    }
+    else{
+        int i=front;
+        printf("Queue: ");
+        while(i!=rear){
+            printf("%d, ",queue[i]);
+            i = (i+1)%(N+1);
+        }printf("\n");
+        
+        
+    }
+}
+
+int main()
+{
+    enqueue(2);
+    enqueue(3);
+    enqueue(4);
+    enqueue(5);
+    enqueue(6);
+    display();
+    dequeue();
+    dequeue();
+    enqueue(7);
+    display();
+    enqueue(8);
+    enqueue(9);
+    display();
+    printf("front: %d, rear: %d",front, rear);
+
+    return 0;
+}
