@@ -1,0 +1,184 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+    int data;
+    struct node *prev,*next;
+};
+struct node *newNode,*head,*tail,*temp;
+void createDCL(){
+    int choice = 1;
+    head = tail = 0;
+    while(choice){
+        newNode = (struct node*) malloc(sizeof(struct node));
+        printf("Enter data: ");
+        scanf("%d",&newNode->data);
+        if(head == 0 && tail == 0){
+            head = tail = newNode;
+            newNode->prev = newNode;
+            newNode->next = newNode;
+            temp = newNode;
+        }
+        else{
+            tail->next = newNode;
+            head->prev = newNode;
+            temp->next = newNode;
+            newNode->prev = temp;
+            newNode->next = head;//added
+            temp = newNode;
+            tail = newNode;
+        }
+        printf("Do you want to add more data?(0/1): ");
+        scanf("%d",&choice);
+    }
+}
+
+void display(){
+    temp = head;
+    while(temp!=tail){
+        printf("%d<-->",temp->data);
+        temp = temp->next;
+    }printf("%d<-->\n",temp->data);
+}
+
+void insertData(){
+    int isInsert,indexToInsert;
+    printf("Dou you want to insert any data?(0/1): ");
+    scanf("%d",&isInsert);
+    while(isInsert){
+        printf("Enter index to insert: ");
+        scanf("%d",&indexToInsert);
+        newNode = (struct node*) malloc(sizeof(struct node));
+        printf("Enter data: ");
+        scanf("%d",&newNode->data);
+        if(indexToInsert == 0){
+            newNode->next = head;
+            newNode->prev = head->prev;
+            head->prev = newNode;
+            head = newNode;
+        }
+        else if(indexToInsert == -1){
+            newNode->prev = tail;
+            tail->next = newNode;
+            newNode->next = tail->next;
+            tail = newNode;
+        }
+        else{
+            temp = head;
+            int i = 0;
+            struct node *prevNode;
+            while(i<indexToInsert){
+                prevNode = temp;
+                temp = temp->next;
+                i++;
+            }
+            prevNode->next = newNode;
+            newNode->prev = prevNode;
+            newNode->next = temp;
+            temp->prev = newNode;
+            
+        }
+        printf("Dou you want to insert more data?(0/1): ");
+        scanf("%d",&isInsert);
+    }
+}
+
+void deleteData(){
+    int isDelete,indexToDelete;
+    printf("Do you want to delete any data?(0/1): ");
+    scanf("%d",&isDelete);
+    while(isDelete){
+        printf("Enter index to delete: ");
+        scanf("%d",&indexToDelete);
+        struct node *currentNode,*prevNode,*nextNode;
+        if (indexToDelete == 0){
+            prevNode = head;
+            currentNode = head->next;
+            currentNode->prev = prevNode->prev;
+            tail->next = currentNode;
+            head = currentNode;
+            free(prevNode);
+        }
+        else if(indexToDelete == -1){
+            currentNode = tail;
+            prevNode = tail->prev;
+            prevNode->next = currentNode->next;
+            head->prev = prevNode;
+            tail = prevNode;
+            free(currentNode);
+        }
+        else{
+            int i=0;
+            currentNode = head;
+            while(i<indexToDelete){
+                prevNode = currentNode;
+                currentNode = currentNode->next;
+                i++;
+            }
+            nextNode = currentNode->next;
+            prevNode->next = nextNode;
+            free(currentNode);
+            // prevNode->next = currentNode->next;
+            // currentNode->next->prev = prevNode;
+            // free(currentNode);
+        }
+        printf("Do you want to delete more data?(0/1): ");
+        scanf("%d",&isDelete);
+    }
+}
+
+void reverseView(){
+    int rChoice;
+    printf("Do you want to get reverse view of linked list?(0/1): ");
+    scanf("%d",&rChoice);
+    if(rChoice){
+        temp = tail;
+        while(temp != head){
+            printf("%d<-->",temp->data);
+            temp = temp->prev;
+        }printf("%d<-->",temp->data);
+    }
+}
+void reverseLL(){
+    struct node *nextNode, *currentNode,*prevNode;
+    prevNode = head;
+    currentNode = prevNode->next;
+    nextNode = currentNode->next;
+    while(currentNode != head){
+        currentNode->next = prevNode;
+        currentNode->prev = nextNode;
+        currentNode = nextNode;
+        nextNode = currentNode->next;
+        prevNode = currentNode->prev;
+    }
+    currentNode->next = prevNode;
+    currentNode->prev = nextNode;
+    currentNode = nextNode;
+    nextNode = currentNode->next;
+    prevNode = currentNode->prev;
+    temp = head;
+    head = tail;
+    tail = temp;
+}
+
+int main()
+{
+    createDCL();
+    display();
+    insertData();
+    display();
+    deleteData();
+    display();
+    reverseView();
+    int choice;
+    printf("Do you want to reverse the linked list?(0/1): ");
+    scanf("%d",&choice);
+    if(choice){
+        reverseLL();
+    }
+    display();
+    printf("head= %d, tail= %d, head->prev->data: %d, head->next->data %d, tail->prev->data= %d, tail->next->data= %d",
+    head->data, tail->data,head->prev->data, head->next->data, tail->prev->data, tail->next->data
+    );
+    return 0;
+}
